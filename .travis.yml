@@ -1,0 +1,16 @@
+#CIの流れ
+#1. Tell Travis we need a copy of docker running
+#2. Build our image using Dockerfile.dev
+#3. Tell Travis how to run our test suite
+#4. Tell Travis hot to deploy our code to AWS
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  #IDではなく、tagを振って識別する
+  - docker build -t togasho/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true togasho/docker-react npm run test
